@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#4f46e5">
+  <meta name="application-name" content="EnFoco">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="EnFoco">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="Entrenamiento local de atención, concentración y memoria útil.">
+  <title>EnFoco · Atención y memoria</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#inicio" data-route="inicio" aria-label="EnFoco, ir al inicio">
+        <span class="brand-mark" aria-hidden="true">E</span>
+        <span><strong>EnFoco</strong><small>Atención y memoria</small></span>
+      </a>
+      <span class="local-badge" title="La aplicación no envía datos a Internet">● Solo en este dispositivo</span>
+    </header>
+
+    <nav class="main-nav" aria-label="Secciones principales">
+      <button class="nav-item active" data-route="inicio" aria-current="page"><span aria-hidden="true">⌂</span> Inicio</button>
+      <button class="nav-item" data-route="atencion"><span aria-hidden="true">◎</span> Atención</button>
+      <button class="nav-item" data-route="concentracion"><span aria-hidden="true">◷</span> Concentración</button>
+      <button class="nav-item" data-route="memoria"><span aria-hidden="true">◇</span> Memoria</button>
+      <button class="nav-item" data-route="progreso"><span aria-hidden="true">↗</span> Progreso</button>
+      <button class="nav-item" data-route="ajustes"><span aria-hidden="true">⚙</span> Ajustes</button>
+    </nav>
+
+    <aside class="install-tip" id="ios-install-tip" hidden aria-label="Instalar EnFoco en el iPhone">
+      <div><strong>Instala EnFoco en tu iPhone</strong><span>Toca Compartir y después “Añadir a pantalla de inicio”.</span></div>
+      <button class="icon-button" id="dismiss-install-tip" type="button" aria-label="Ocultar indicación de instalación">×</button>
+    </aside>
+
+    <main id="main-content">
+      <section class="view active" id="view-inicio" data-view="inicio">
+        <div class="hero">
+          <div>
+            <p class="eyebrow" id="today-label"></p>
+            <h1>Un entrenamiento breve que sirve fuera de la pantalla.</h1>
+            <p class="hero-copy">Practica atención, protege un bloque para una tarea real y recupera recuerdos importantes para ti.</p>
+          </div>
+          <div class="streak" aria-label="Racha de días de práctica">
+            <span class="streak-value" id="streak-value">0</span>
+            <span>días seguidos</span>
+          </div>
+        </div>
+
+        <section aria-labelledby="plan-title">
+          <div class="section-heading">
+            <div><p class="eyebrow">Plan diario</p><h2 id="plan-title">Tu sesión de hoy</h2></div>
+            <span class="time-estimate" id="plan-time">≈ 15 min</span>
+          </div>
+          <div class="plan-grid">
+            <article class="plan-card" id="plan-attention">
+              <div class="plan-icon attention" aria-hidden="true">◎</div>
+              <div class="plan-content">
+                <span class="step-label">1 · Control atencional</span>
+                <h3>Detecta el objetivo</h3>
+                <p>Responde solo cuando aparezca el círculo. La velocidad se adapta a ti.</p>
+                <button class="button primary" data-route="atencion">Entrenar 2 min</button>
+              </div>
+            </article>
+            <article class="plan-card" id="plan-focus">
+              <div class="plan-icon focus" aria-hidden="true">◷</div>
+              <div class="plan-content">
+                <span class="step-label">2 · Aplicación real</span>
+                <h3>Un bloque sin dispersarte</h3>
+                <p>Elige una tarea concreta y registra las distracciones sin juzgarte.</p>
+                <button class="button primary" data-route="concentracion">Empezar bloque</button>
+              </div>
+            </article>
+            <article class="plan-card" id="plan-memory">
+              <div class="plan-icon memory" aria-hidden="true">◇</div>
+              <div class="plan-content">
+                <span class="step-label">3 · Recuerdo activo</span>
+                <h3 id="due-title-home">0 recuerdos pendientes</h3>
+                <p>Intenta recordar antes de ver la respuesta. EnFoco decidirá cuándo repetir.</p>
+                <button class="button primary" data-action="start-review-home">Repasar ahora</button>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="week-summary" aria-labelledby="week-title">
+          <div class="section-heading"><div><p class="eyebrow">Tendencia</p><h2 id="week-title">Tus últimos 7 días</h2></div></div>
+          <div class="metric-grid">
+            <article class="metric"><span>Minutos de enfoque</span><strong id="home-focus-min">0</strong><small>en tareas reales</small></article>
+            <article class="metric"><span>Precisión atencional</span><strong id="home-attention-accuracy">—</strong><small>en el último ejercicio</small></article>
+            <article class="metric"><span>Recuerdos recuperados</span><strong id="home-memory-recalls">0</strong><small>respuestas valoradas</small></article>
+          </div>
+        </section>
+      </section>
+
+      <section class="view" id="view-atencion" data-view="atencion">
+        <div class="page-heading">
+          <div><p class="eyebrow">Ejercicio adaptativo</p><h1>Control atencional</h1><p>Practica responder a lo relevante e inhibir respuestas impulsivas.</p></div>
+        </div>
+
+        <div class="training-panel" id="attention-setup">
+          <div class="instruction-visual" aria-hidden="true"><span class="target-demo">●</span><span>pulsa</span><kbd>Espacio</kbd></div>
+          <h2>Responde solo al círculo</h2>
+          <p>Cuando aparezca <strong>●</strong>, pulsa el botón o la barra espaciadora. Ante cualquier otra figura, espera. Prioriza la precisión; la velocidad llegará después.</p>
+          <fieldset class="segmented-field">
+            <legend>Duración</legend>
+            <label><input type="radio" name="attention-duration" value="60"> 1 min</label>
+            <label><input type="radio" name="attention-duration" value="120" checked> 2 min</label>
+            <label><input type="radio" name="attention-duration" value="180"> 3 min</label>
+          </fieldset>
+          <button class="button primary large" id="attention-start">Comenzar</button>
+          <p class="quiet">Nivel actual: <span id="attention-level-label">1</span> de 10. Se ajusta automáticamente.</p>
+        </div>
+
+        <div class="attention-game hidden" id="attention-game" aria-live="polite">
+          <div class="game-status"><span>Tiempo <strong id="attention-time">2:00</strong></span><span>Precisión <strong id="attention-live-accuracy">—</strong></span></div>
+          <button class="stimulus-stage" id="stimulus-stage" aria-label="Zona de respuesta: pulsa cuando veas el círculo">
+            <span class="stimulus" id="stimulus">+</span>
+          </button>
+          <p class="game-hint">Pulsa aquí o usa <kbd>Espacio</kbd> cuando veas ●</p>
+          <button class="button secondary" id="attention-stop">Terminar antes</button>
+        </div>
+
+        <div class="result-panel hidden" id="attention-result" aria-live="polite">
+          <p class="eyebrow">Sesión terminada</p><h2 id="attention-result-title">Buen trabajo</h2>
+          <div class="metric-grid compact">
+            <article class="metric"><span>Precisión</span><strong id="result-accuracy">0%</strong><small>aciertos y control</small></article>
+            <article class="metric"><span>Respuesta mediana</span><strong id="result-rt">—</strong><small>milisegundos</small></article>
+            <article class="metric"><span>Falsas alarmas</span><strong id="result-false">0</strong><small>respuestas a otra figura</small></article>
+          </div>
+          <p class="result-note" id="attention-result-note"></p>
+          <div class="button-row"><button class="button primary" id="attention-again">Repetir</button><button class="button secondary" data-route="inicio">Volver al inicio</button></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-concentracion" data-view="concentracion">
+        <div class="page-heading"><div><p class="eyebrow">Transferencia a la vida real</p><h1>Bloque de concentración</h1><p>Trabaja en una tarea concreta. Cada vez que te desvíes, regístralo y vuelve.</p></div></div>
+
+        <div class="focus-setup" id="focus-setup">
+          <label class="field"><span>¿Qué terminarás en este bloque?</span><input id="focus-task" type="text" maxlength="100" placeholder="Ej.: revisar dos páginas del informe" autocomplete="off"></label>
+          <label class="field"><span>Duración</span><select id="focus-duration"><option value="5">5 minutos</option><option value="10" selected>10 minutos</option><option value="15">15 minutos</option><option value="25">25 minutos</option></select></label>
+          <button class="button primary large" id="focus-start">Empezar el bloque</button>
+          <p class="form-error hidden" id="focus-error" role="alert">Escribe una tarea concreta antes de comenzar.</p>
+        </div>
+
+        <div class="focus-running hidden" id="focus-running">
+          <p class="eyebrow">Ahora solo importa</p><h2 id="focus-current-task"></h2>
+          <div class="focus-clock" id="focus-clock">10:00</div>
+          <div class="progress-track" aria-hidden="true"><span id="focus-progress"></span></div>
+          <p>Si notas que te has distraído, toca una opción y vuelve a la tarea:</p>
+          <div class="distraction-grid">
+            <button class="distraction-button" data-distraction="móvil">📱 Móvil</button>
+            <button class="distraction-button" data-distraction="pensamiento">☁ Pensamiento</button>
+            <button class="distraction-button" data-distraction="entorno">◉ Entorno</button>
+            <button class="distraction-button" data-distraction="otra">＋ Otra</button>
+          </div>
+          <p class="quiet"><strong id="focus-distractions">0</strong> distracciones registradas. Registrar y volver ya es parte del entrenamiento.</p>
+          <button class="button secondary" id="focus-finish">Finalizar bloque</button>
+        </div>
+
+        <div class="result-panel hidden" id="focus-result">
+          <p class="eyebrow">Bloque guardado</p><h2 id="focus-result-title">Has protegido tu atención</h2>
+          <p id="focus-result-copy"></p>
+          <div class="button-row"><button class="button primary" id="focus-another">Hacer otro</button><button class="button secondary" data-route="inicio">Volver al inicio</button></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-memoria" data-view="memoria">
+        <div class="page-heading split">
+          <div><p class="eyebrow">Recuperación espaciada</p><h1>Memoria útil</h1><p>Guarda cosas que realmente quieras recordar. Intentar recuperarlas fortalece el aprendizaje.</p></div>
+          <button class="button primary" id="show-add-card">Añadir recuerdo</button>
+        </div>
+
+        <form class="add-card-panel hidden" id="add-card-form">
+          <h2>Nuevo recuerdo</h2>
+          <label class="field"><span>Pregunta o pista</span><textarea id="card-front" rows="2" maxlength="240" placeholder="Ej.: ¿Cómo se llama la persona que conocí el lunes?"></textarea></label>
+          <label class="field"><span>Respuesta</span><textarea id="card-back" rows="3" maxlength="500" placeholder="Escribe aquí lo que quieres recuperar"></textarea></label>
+          <p class="form-error hidden" id="card-error" role="alert">Completa la pregunta y la respuesta.</p>
+          <div class="button-row"><button class="button primary" type="submit">Guardar</button><button class="button secondary" type="button" id="cancel-add-card">Cancelar</button></div>
+        </form>
+
+        <div id="memory-overview">
+          <div class="memory-hero">
+            <div><strong id="due-count-memory">0</strong><span id="due-label-memory">recuerdos para hoy</span></div>
+            <button class="button primary large" id="start-review">Empezar repaso</button>
+          </div>
+          <div class="empty-state hidden" id="memory-empty"><div aria-hidden="true">◇</div><h2>Crea tu primer recuerdo</h2><p>Usa datos, nombres, conceptos o compromisos que tengan valor real para ti.</p><button class="button primary" id="empty-add-card">Añadir recuerdo</button></div>
+          <section id="card-library"><div class="section-heading"><div><p class="eyebrow">Biblioteca</p><h2>Tus recuerdos</h2></div><span class="time-estimate"><span id="total-cards">0</span> en total</span></div><div class="card-list" id="card-list"></div></section>
+        </div>
+
+        <div class="review-panel hidden" id="review-panel">
+          <div class="review-progress"><span id="review-progress-label">1 de 1</span><div class="progress-track"><span id="review-progress-bar"></span></div></div>
+          <article class="flashcard" id="flashcard">
+            <span class="step-label">Pregunta</span><h2 id="review-front"></h2>
+            <div class="answer hidden" id="review-answer"><span class="step-label">Respuesta</span><p id="review-back"></p></div>
+          </article>
+          <button class="button primary large" id="reveal-answer">Mostrar respuesta</button>
+          <div class="rating-panel hidden" id="rating-panel">
+            <p>¿Pudiste recordarlo antes de mirar?</p>
+            <div class="rating-grid">
+              <button class="rating-button again" data-rating="again"><strong>No</strong><span>Repetir pronto</span></button>
+              <button class="rating-button hard" data-rating="hard"><strong>Con dificultad</strong><span>Acortar intervalo</span></button>
+              <button class="rating-button good" data-rating="good"><strong>Sí</strong><span>Alargar intervalo</span></button>
+            </div>
+          </div>
+          <button class="text-button" id="exit-review">Salir del repaso</button>
+        </div>
+
+        <div class="result-panel hidden" id="review-result"><p class="eyebrow">Repaso completado</p><h2 id="review-result-title">Has recuperado 0 recuerdos</h2><p>Los volverás a ver cuando el esfuerzo sea útil, no solo cuando resulte fácil.</p><div class="button-row"><button class="button primary" data-route="inicio">Volver al inicio</button><button class="button secondary" id="review-back-library">Ver biblioteca</button></div></div>
+      </section>
+
+      <section class="view" id="view-progreso" data-view="progreso">
+        <div class="page-heading"><div><p class="eyebrow">Evolución personal</p><h1>Progreso</h1><p>Busca constancia y una tendencia gradual. Un día aislado no define tu capacidad.</p></div></div>
+        <div class="metric-grid">
+          <article class="metric"><span>Días activos</span><strong id="progress-active-days">0</strong><small>últimos 30 días</small></article>
+          <article class="metric"><span>Tiempo enfocado</span><strong id="progress-focus-time">0 min</strong><small>últimos 7 días</small></article>
+          <article class="metric"><span>Recuerdo logrado</span><strong id="progress-retention">—</strong><small>últimos 30 repasos</small></article>
+        </div>
+        <section class="chart-section" aria-labelledby="activity-title"><div class="section-heading"><div><p class="eyebrow">7 días</p><h2 id="activity-title">Actividad diaria</h2></div></div><div class="bar-chart" id="activity-chart" role="img" aria-label="Minutos de práctica durante los últimos siete días"></div></section>
+        <section class="trend-grid">
+          <article class="trend-card"><h2>Atención</h2><p id="attention-trend-text">Completa dos ejercicios para ver una tendencia.</p><div class="sparkline" id="attention-sparkline" role="img" aria-label="Tendencia de precisión atencional"></div></article>
+          <article class="trend-card"><h2>Concentración</h2><p id="focus-trend-text">Completa un bloque para empezar a medir.</p><div class="focus-breakdown" id="focus-breakdown"></div></article>
+        </section>
+        <aside class="interpretation"><strong>Cómo leer estos datos</strong><p>La precisión, el tiempo de respuesta y las distracciones dependen también del sueño, el estrés y el contexto. Compara periodos, no sesiones sueltas. Estas métricas no diagnostican deterioro cognitivo.</p></aside>
+      </section>
+
+      <section class="view" id="view-ajustes" data-view="ajustes">
+        <div class="page-heading"><div><p class="eyebrow">Control y privacidad</p><h1>Ajustes</h1><p>Todo queda en el almacenamiento local de este navegador.</p></div></div>
+        <div class="settings-list">
+          <section class="setting-row"><div><h2>Objetivo diario</h2><p>Se usa para estimar tu plan, no para penalizarte.</p></div><label class="field inline"><span class="sr-only">Minutos diarios</span><select id="daily-goal"><option value="10">10 min</option><option value="15">15 min</option><option value="20">20 min</option><option value="30">30 min</option></select></label></section>
+          <section class="setting-row"><div><h2>Copia de seguridad</h2><p>Exporta tus recuerdos y tu historial a un archivo JSON.</p></div><div class="button-row"><button class="button secondary" id="export-data">Exportar</button><label class="button secondary file-button">Importar<input type="file" id="import-data" accept="application/json,.json"></label></div></section>
+          <section class="setting-row danger"><div><h2>Borrar todos los datos</h2><p>Elimina recuerdos, sesiones y preferencias de este navegador.</p></div><button class="button danger" id="reset-data">Borrar datos</button></section>
+        </div>
+        <section class="evidence-note"><h2>Qué puede y qué no puede hacer EnFoco</h2><p>La práctica de recuperación y el espaciado ayudan a retener el contenido practicado. Los ejercicios atencionales mejoran sobre todo la tarea entrenada; no hay base sólida para prometer una mejora general de la inteligencia o prevenir una enfermedad. El bloque de concentración busca un beneficio directo: hacer mejor una tarea real.</p><p><strong>Importante:</strong> si la pérdida de memoria es nueva, empeora, dificulta tareas cotidianas o preocupa a quienes te rodean, conviene hablar con un profesional sanitario. La aplicación no sustituye esa valoración.</p></section>
+        <p class="version">EnFoco 1.0 · Sin cuentas, anuncios ni conexión necesaria.</p>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog id="confirm-dialog"><form method="dialog"><h2 id="dialog-title">Confirmar</h2><p id="dialog-copy"></p><div class="button-row"><button class="button danger" value="confirm">Confirmar</button><button class="button secondary" value="cancel">Cancelar</button></div></form></dialog>
+  <script src="app.js?v=2"></script>
+</body>
+</html>
